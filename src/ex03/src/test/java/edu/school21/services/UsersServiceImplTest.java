@@ -51,4 +51,13 @@ public class UsersServiceImplTest {
         Assertions.assertThrows(AlreadyAuthenticatedException.class,
                 () -> service.authenticate(login, password));
     }
+
+    @Test
+    void authenticateUserNotFound() {
+        String login = "123";
+        String password = "1234";
+        Mockito.when(repository.findByLogin(login))
+                .thenThrow(new RuntimeException());
+        Assertions.assertThrows(RuntimeException.class, () -> service.authenticate(login, password));
+    }
 }
